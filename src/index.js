@@ -3,10 +3,33 @@ var express = require('express')
 //const obj = library()
 const app = express()
 
+const { P,FN,LN,ADDR,mf,myMethod2,myMethod3,myMethod4 } = require('./helper');
+//const {elem1,elem2,....} = require('somelibary');
+
+console.log(P);
+console.log(FN);
+console.log(LN);
+console.log(ADDR);
+
+console.log(mf);
+
+mf();
+
+console.log(myMethod2);
+
+myMethod2();
+
+console.log(myMethod3);
+
+myMethod3();
+
+myMethod4();
+
+
 //Middleware
 app.use(express.json())
 
-let port = 5000;
+
 
 //obj.method()
 //cbfn = callback function
@@ -34,8 +57,8 @@ app.post('/getuserinfo',(req,res)=>{
 
 
 
-app.listen(port,()=>{  //Fat Arrow Function to create cbfn
-    console.log(`The server is running on Port ${ port } `);
-})
+//app.listen(PORT,()=>{  //Fat Arrow Function to create cbfn
+  //  console.log(`The server is running on Port ${ PORT } `);
+///})
 
 //We are going to create a route
