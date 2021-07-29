@@ -44,6 +44,7 @@ const myMethod2 = function(){ //Fat arrow
                 P:PORT,
                 "FN":FNAME,
                 'LN':LNAME,
+            
                 ADDR,
                 mf:myMethod2,
                 myMethod2,

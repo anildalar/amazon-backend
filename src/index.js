@@ -3,52 +3,26 @@ var express = require('express')
 //const obj = library()
 const app = express()
 
-//1. require('dotenv').config()
-require('dotenv').config();
+var bodyParser = require('body-parser')
 
-//2. const env = require('dotenv')
-//2.1 env.config();
+// create application/json parser
+app.use(bodyParser());
 
-//process.env.CONSTANTNAME
+//1 . 
 
-//process.env.PORT
+//Middleware 
+//app.use(express.json());
 
-
-
-
-//Middleware
-app.use(express.json())
-
-
-
-//obj.method()
-//cbfn = callback function
-//app.get('routename','cbfn');
-app.get('/',function(req,res){
-    res.send('Hello World Welcome to oklabs')
+app.post('/saveuser',(req,res)=>{
+    console.log(req.body.fname);
+    //req.body.prametername
+    res.status(200).json({
+        'msg':'ok'
+    });
 });
 
-app.get('/getmyname',(req,res)=>{
-    res.send('Hello OKLABS How are you ?');
-});
-
-app.get('/getmymission',function(req,res){
-    res.send('Our Mission Mission to educate student for coding');
-});
-
-app.post('/getuserinfo',(req,res)=>{
-    let firstname = req.params.fname;
-    console.log(firstname);
-   //HTTP Status Code
-   //res.status(200).json({ "username":  req.body.uname });
-   res.status(200).json({"firstname":firstname});
-
-});
-
-
-
-app.listen(process.env.PORT,()=>{  //Fat Arrow Function to create cbfn
-    console.log(`The server is running on Port ${ process.env.PORT } `);
+app.listen(5000,()=>{  //Fat Arrow Function to create cbfn
+    console.log(`The server is running on Port 5000 `);
 })
 
 //We are going to create a route
