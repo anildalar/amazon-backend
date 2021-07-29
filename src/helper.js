@@ -52,6 +52,9 @@ const myMethod2 = function(){ //Fat arrow
                 },
                 myMethod4:function(){
                     console.log('Hello from myMethod4');
+                },
+                config:()=>{
+
                 }
 
             };

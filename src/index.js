@@ -3,27 +3,17 @@ var express = require('express')
 //const obj = library()
 const app = express()
 
-const { P,FN,LN,ADDR,mf,myMethod2,myMethod3,myMethod4 } = require('./helper');
-//const {elem1,elem2,....} = require('somelibary');
+//1. require('dotenv').config()
+require('dotenv').config();
 
-console.log(P);
-console.log(FN);
-console.log(LN);
-console.log(ADDR);
+//2. const env = require('dotenv')
+//2.1 env.config();
 
-console.log(mf);
+//process.env.CONSTANTNAME
 
-mf();
+//process.env.PORT
 
-console.log(myMethod2);
 
-myMethod2();
-
-console.log(myMethod3);
-
-myMethod3();
-
-myMethod4();
 
 
 //Middleware
@@ -42,7 +32,7 @@ app.get('/getmyname',(req,res)=>{
     res.send('Hello OKLABS How are you ?');
 });
 
-app.post('/getmymission',function(req,res){
+app.get('/getmymission',function(req,res){
     res.send('Our Mission Mission to educate student for coding');
 });
 
@@ -57,8 +47,8 @@ app.post('/getuserinfo',(req,res)=>{
 
 
 
-//app.listen(PORT,()=>{  //Fat Arrow Function to create cbfn
-  //  console.log(`The server is running on Port ${ PORT } `);
-///})
+app.listen(process.env.PORT,()=>{  //Fat Arrow Function to create cbfn
+    console.log(`The server is running on Port ${ process.env.PORT } `);
+})
 
 //We are going to create a route
