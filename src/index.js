@@ -1,36 +1,28 @@
-    //1. Import Area
-    var express = require('express')
-    //const obj = library()
-    const app = express()
+//1. Import Area
+var express = require('express')
+//const obj = library()
+const app = express()
+const mongoose = require('mongoose');
 
-    var bodyParser = require('body-parser')
 
-    // create application/json parser
-    app.use(bodyParser());
+//mongodb+srv://admin123:<password>@amazon-cluster.grgdi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 
-    //1 . 
+mongoose.connect(
+    'mongodb+srv://admin123:admin123@amazon-cluster.grgdi.mongodb.net/AMAZON-BACKEND?retryWrites=true&w=majority', 
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }
+);
 
-    //Middleware 
-    //app.use(express.json());
+const db = mongoose.connection;
 
-    app.post('/saveuser',(req,res,next)=>{
-        req.body.name = req.body.name + ' Welcome to the world of eduction ';
-
-        
-        next();
-    },function(req,res,next){
-        req.body.name = req.body.name + "Lets start the tutorial";
-        next();
-    },(req,res)=>{
-        console.log(req.body.fname);
-        //req.body.prametername
-        res.status(200).json({
-            'msg':req.body.name
-        });
-    });
-
-    app.listen(5000,()=>{  //Fat Arrow Function to create cbfn
-        console.log(`The server is running on Port 5000 `);
-    })
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+    console.log('Connected');
+});
+app.listen(5000, () => {  //Fat Arrow Function to create cbfn
+    console.log(`The server is running on Port 5000 `);
+})
 
     //We are going to create a route
