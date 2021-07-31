@@ -2,7 +2,12 @@
 var express = require('express')
 //const obj = library()
 const app = express()
+const env = require('dotenv')
+
+env.config();
+
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 
 //mongodb+srv://admin123:<password>@amazon-cluster.grgdi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
@@ -20,9 +25,30 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
     console.log('Connected');
+    
+
 });
-app.listen(5000, () => {  //Fat Arrow Function to create cbfn
-    console.log(`The server is running on Port 5000 `);
+
+
+//Lets Create a Schema
+// const object = new Class();
+const UserSchema = new Schema({
+    //P:V,
+    //P:V
+    firstName:String, // String is shorthand for {type: String}
+    'lastName': { type: String },
+    addr:{
+        type: String,
+        required:true
+    },
+    "username": { type: String,unique:true, required:true }
+
+});
+
+
+
+app.listen(process.env.PORT, () => {  //Fat Arrow Function to create cbfn
+    console.log(`The server is running on Port ${process.env.PORT} `);
 })
 
     //We are going to create a route
