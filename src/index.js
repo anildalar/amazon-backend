@@ -46,6 +46,14 @@ const UserSchema = new Schema({
 });
 
 
+const ProductSchema = new Schema({
+    productName:{ type:String}
+});
+
+const UserCollection = mongoose.model('User', UserSchema);
+const ProductCollection = mongoose.model("Products",ProductSchema);
+
+
 
 app.listen(process.env.PORT, () => {  //Fat Arrow Function to create cbfn
     console.log(`The server is running on Port ${process.env.PORT} `);
