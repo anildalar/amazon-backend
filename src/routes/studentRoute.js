@@ -20,8 +20,44 @@ router.post('/students',(req,res)=>{
             msg:"Unable to store sent successffully"
         });
     });
-    
+});
+
+
+
+//Update Operation
+router.put("/student/:stu_id",(req,res)=>{
+    console.log(req.params.stu_id);
+    //let i = req.params.stu_id;
+    //Promise Chain
+    //PromiseObject.then().then().then().catch().finally();
+    StudentModel.findOneAndUpdate({ _id:req.params.stu_id },req.body).then((d)=>{
+        //data
+        res.status(200).json({
+            msg:'Successfully Updated',
+            d:req.body,
+            id:req.params.stu_id
+        });
+    }).catch(function(e){
+        //error
+    }).finally(()=>{
+        //Both
+    });
+});
+
+router.delete('/student/:id',function(req,res){
+    //PromiseObject.then().then().then().catch().finally();
+    StudentModel.findOneAndDelete({_id:req.params.id}).then((student)=>{
+        res.status(200).send({
+            msg:"Record Deleted Successfully"
+        });
+    }).catch(()=>{
+
+    }).finally(()=>{
+
+    });
     
 });
+
+
 
 module.exports = router;
