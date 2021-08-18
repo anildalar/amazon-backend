@@ -1,17 +1,21 @@
     const express = require('express');
     const app = express();
-
     const env = require('dotenv');
     env.config();
 
     const mongoose = require('mongoose');
 
+    app.use(express.json());
+
     //Deconstruct /Import
-    const { Schema } = mongoose;
-    //connect
-    //mongodb+srv://admin123:admin123@amazon-cluster.qnz6h.mongodb.net/AMAZON-BACKEND?retryWrites=true&w=majority
-    //mongodb+srv://admin123:<password>@amazon-cluster.qnz6h.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
-    mongoose.connect('mongodb+srv://admin123:admin123@amazon-cluster.qnz6h.mongodb.net/AMAZON-BACKEND?retryWrites=true&w=majority',{
+   // const { Schema } = mongoose;
+
+    //console.log(process.env.MONGO_USER);
+   // console.log(process.env.MONGO_PASS);
+   // console.log(process.env.MONGO_DB);
+    //console.log(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@amazon-cluster.qnz6h.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`);
+
+    mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@amazon-cluster.qnz6h.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,{
         useNewUrlParser: true,
         useUnifiedTopology: true
     });
@@ -23,75 +27,71 @@
         console.log('Connected');
     });
 
-    const kettySchema = new Schema({
-        name:{
+    const userSchema = new mongoose.Schema({
+        firstName:{
+            type:String,
+            required:true
+        },
+        lastName:{
+            type:String
+        },
+        email:{
+            type:String,
+            required:true
+        },
+        password:{
+            type:String,
+            required:true
+        },
+        mobileno:{
             type:String
         }
     });
 
+    const UserModel = mongoose.model('User',userSchema);
 
-    kettySchema.method('myFunction',()=>{
-        console.log('Meeoueee');
+    app.post('/api/register',(req,res)=>{
+
+        //Destructure 
+        const { fn,ln,eml,pwd,mobno } = req.body;
+
+        //console.log(firstName);
+        //console.log(req.body);
+
+        //In Registeration Process first you need to find if the user is already exits
+
+        UserModel.findOne({email:eml}).then((d)=>{
+            if(d){
+                res.status(400).json({
+                    msg:"Failed - User Already Exists"
+                });
+            }else{
+                //User not exits
+                UserModel.create({ firstName:fn,lastName:ln,email:eml,password:pwd,mobileno:mobno }).then((d)=>{
+                    //Success
+                    res.status(200).json({
+                        msg:"OK - Registeration is successfull"
+                    });
+                }).catch((e)=>{
+                    res.status(400).json(e);
+                });
+            }
+        }).catch(function(e){
+            res.status(400).json(e);
+        }).finally();
+        /*
+        exec((e,d)=>{
+            
+        });
+        */
     });
 
-    kettySchema.method('myFunction2',function(){
-        
-        
-        
-        return 'Hello ';
-    });
+   
 
-    //Create the collection
+    //const kitty = new Cat({ name: 'Zildjian' });
+   // kitty.save().then(() => console.log('meow'));
 
-   const Kitty = mongoose.model('Kitty',kettySchema);
 
-   //Lets Create an object
-
-   //Const objname = new ClassName();
-   let kitty = new Kitty();
-
-   //You can access the method by using Intance object
-
-   //obj.method();
-   //obj.member
-
-   kitty.myFunction();
-    let x = kitty.myFunction2();
-
-    console.log(x);
-
-    //import someting from somelibary  mjs
-    // const { a,b,c,d,e } = require();     
-    //const { nameimport1,namedimport2,..... } = require('somelibary');      cjs
-    /*
-
-    const { body, validationResult } = require('express-validator');
-
-    app.use(express.json());
-
-    //app.method('route','mwfn1','mwfn2','cbfn');
-    app.post('/user',
-    // username must be an email
-   // body('username').isEmail(),
-    // password must be at least 5 chars long
-    body('password').isLength({ min: 5 }),
-    (req,res)=>{
-
-        const errors = validationResult(req);
-
-        if (!errors.isEmpty()) {
-            //Data is invalid
-            return res.status(400).json({ errors: errors.array() });
-        }
-        //Data is valid
-        res.status(200).send({
-            msg:'ok',
-            d1:req.body
-        })
-
-       
-    });
-    */
 
 
 
